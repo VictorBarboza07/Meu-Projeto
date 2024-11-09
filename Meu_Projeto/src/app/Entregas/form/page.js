@@ -8,39 +8,39 @@ import { FaArrowLeft, FaCheck } from "react-icons/fa";
 import { v4 } from "uuid";
 import * as Yup from "yup";
 
-export default function DisciplinaFormPage(props) {
+export default function EntregasFormPage(props) {
   const router = useRouter();
 
-  // Busca a lista de cursos e professores para usar nos selects
-  const cursos = JSON.parse(localStorage.getItem("cursos")) || [];
-  const professores = JSON.parse(localStorage.getItem("professores")) || [];
+  // Busca a lista de Clientess e Fornecedoreses para usar nos selects
+  const Clientess = JSON.parse(localStorage.getItem("Clientess")) || [];
+  const FornecedoresEditado = JSON.parse(localStorage.getItem("Fornecedores")) || [];
 
   // Recupera o ID para edição, se disponível
   const id = props.searchParams.id;
-  const disciplinas = JSON.parse(localStorage.getItem("disciplinas")) || [];
-  const disciplinaEditada = disciplinas.find((item) => item.id == id);
+  const Entregas = JSON.parse(localStorage.getItem("Entregas")) || [];
+  const EntregasEditada = Entregas.find((item) => item.id == id);
 
   // Função para salvar os dados do form
   function salvar(dados) {
-    if (disciplinaEditada) {
-      Object.assign(disciplinaEditada, dados);
-      localStorage.setItem("disciplinas", JSON.stringify(disciplinas));
+    if (EntregasEditada) {
+      Object.assign(EntregasEditada, dados);
+      localStorage.setItem("Entregas", JSON.stringify(Entregas));
     } else {
       dados.id = v4();
-      disciplinas.push(dados);
-      localStorage.setItem("disciplinas", JSON.stringify(disciplinas));
+      Entregas.push(dados);
+      localStorage.setItem("Entregas", JSON.stringify(Entregas));
     }
 
-    alert("Disciplina salva com sucesso!");
-    router.push("/disciplinas");
+    alert("Entregas salva com sucesso!");
+    router.push("/Entregas");
   }
 
   // Valores iniciais do formulário
   const initialValues = {
     nome: "",
     descricao: "",
-    curso: "",
-    professor: "",
+    Clientes: "",
+    Fornecedores: "",
     status: "",
   };
 
@@ -48,15 +48,15 @@ export default function DisciplinaFormPage(props) {
   const validationSchema = Yup.object().shape({
     nome: Yup.string().required("Campo obrigatório"),
     descricao: Yup.string().required("Campo obrigatório"),
-    curso: Yup.string().required("Campo obrigatório"),
-    professor: Yup.string().required("Campo obrigatório"),
+    Clientes: Yup.string().required("Campo obrigatório"),
+    Fornecedores: Yup.string().required("Campo obrigatório"),
     status: Yup.string().required("Campo obrigatório"),
   });
 
   return (
-    <Pagina titulo={"Disciplina"}>
+    <Pagina titulo={"Entregas"}>
       <Formik
-        initialValues={disciplinaEditada || initialValues}
+        initialValues={EntregasEditada || initialValues}
         validationSchema={validationSchema}
         onSubmit={salvar}
       >
@@ -106,40 +106,40 @@ export default function DisciplinaFormPage(props) {
 
               <Row className="mb-2">
                 <Form.Group as={Col}>
-                  <Form.Label>Curso:</Form.Label>
+                  <Form.Label>Clientes:</Form.Label>
                   <Form.Select
-                    name="curso"
-                    value={values.curso}
+                    name="Clientes"
+                    value={values.Clientes}
                     onChange={handleChange}
                     onBlur={handleBlur}
-                    isValid={touched.curso && !errors.curso}
-                    isInvalid={touched.curso && errors.curso}
+                    isValid={touched.Clientes && !errors.Clientes}
+                    isInvalid={touched.Clientes && errors.Clientes}
                   >
                     <option value="">Selecione</option>
-                    {cursos.map((curso) => (
-                      <option key={curso.id} value={curso.id}>
-                        {curso.nome}
+                    {Clientess.map((Clientes) => (
+                      <option key={Clientes.id} value={Clientes.id}>
+                        {Clientes.nome}
                       </option>
                     ))}
                   </Form.Select>
                   <Form.Control.Feedback type="invalid">
-                    {errors.curso}
+                    {errors.Clientes}
                   </Form.Control.Feedback>
                 </Form.Group>
 
                 <Form.Group as={Col}>
-                  <Form.Label>Professor:</Form.Label>
+                  <Form.Label>Fornecedores:</Form.Label>
                   <Form.Select
-                    name="professor"
-                    value={values.professor}
+                    name="Fornecedores"
+                    value={values.Fornecedores}
                     onChange={handleChange}
                     onBlur={handleBlur}
-                    isValid={touched.professor && !errors.professor}
-                    isInvalid={touched.professor && errors.professor}
+                    isValid={touched.Fornecedores && !errors.Fornecedores}
+                    isInvalid={touched.Fornecedores && errors.Fornecedores}
                   >
                     <option value="">Selecione</option>
-                    {professores
-                      .filter((prof) => prof.cursoId === values.curso)
+                    {FornecedoresEditado
+                      .filter((prof) => prof.ClientesId === values.Clientes)
                       .map((prof) => (
                         <option key={prof.id} value={prof.id}>
                           {prof.nome}
@@ -147,7 +147,7 @@ export default function DisciplinaFormPage(props) {
                       ))}
                   </Form.Select>
                   <Form.Control.Feedback type="invalid">
-                    {errors.professor}
+                    {errors.Fornecedores}
                   </Form.Control.Feedback>
                 </Form.Group>
               </Row>
@@ -174,7 +174,7 @@ export default function DisciplinaFormPage(props) {
               </Row>
 
               <Form.Group className="text-end">
-                <Button className="me-2" href="/disciplinas">
+                <Button className="me-2" href="/Entregass">
                   <FaArrowLeft /> Voltar
                 </Button>
                 <Button type="submit" variant="success">

@@ -5,36 +5,36 @@ import { useEffect, useState } from "react";
 import { Button, Table } from "react-bootstrap";
 import { FaPen, FaPlusCircle, FaTrash } from "react-icons/fa";
 
-export default function DisciplinasPage() {
-  const [disciplinas, setDisciplinas] = useState([]);
+export default function EntregasPage() {
+  const [Entregas, setEntregas] = useState([]);
 
-  // Carrega as disciplinas quando a tela é acessada
+  // Carrega as Entregas quando a tela é acessada
   useEffect(() => {
-    // Busca as disciplinas do localStorage, se não existir, inicia uma lista vazia
-    const disciplinasLocalStorage = JSON.parse(localStorage.getItem("disciplinas")) || [];
-    setDisciplinas(disciplinasLocalStorage);
-    console.log(disciplinasLocalStorage);
+    // Busca as Entregas do localStorage, se não existir, inicia uma lista vazia
+    const EntregasLocalStorage = JSON.parse(localStorage.getItem("Entregas")) || [];
+    setEntregas(EntregasLocalStorage);
+    console.log(EntregasLocalStorage);
   }, []);
 
-  // Função para exclusão de uma disciplina
-  function excluir(disciplina) {
-    if (window.confirm(`Deseja realmente excluir a disciplina ${disciplina.nome}?`)) {
-      const novaLista = disciplinas.filter((item) => item.id !== disciplina.id);
-      localStorage.setItem("disciplinas", JSON.stringify(novaLista));
-      setDisciplinas(novaLista);
-      alert("Disciplina excluída com sucesso!");
+  // Função para exclusão de uma Entregas
+  function excluir(Entregas) {
+    if (window.confirm(`Deseja realmente excluir a Entregas ${Entregas.nome}?`)) {
+      const novaLista = Entregas.filter((item) => item.id !== Entregas.id);
+      localStorage.setItem("Entregas", JSON.stringify(novaLista));
+      setEntregas(novaLista);
+      alert("Entregas excluída com sucesso!");
     }
   }
 
   return (
-    <Pagina titulo={"Disciplinas"}>
+    <Pagina titulo={"Entregas"}>
       <div className="text-end mb-2">
-        <Button href="/disciplinas/form">
+        <Button href="/Entregas/form">
           <FaPlusCircle /> Novo
         </Button>
       </div>
 
-      {/* Tabela com as Disciplinas */}
+      {/* Tabela com as Entregas */}
       <Table striped bordered hover>
         <thead>
           <tr>
@@ -47,19 +47,19 @@ export default function DisciplinasPage() {
           </tr>
         </thead>
         <tbody>
-          {disciplinas.map((disciplina) => (
-            <tr key={disciplina.id}>
-              <td>{disciplina.nome}</td>
-              <td>{disciplina.descricao}</td>
-              <td>{disciplina.status}</td>
-              <td>{disciplina.curso}</td>
-              <td>{disciplina.professor}</td>
+          {Entregas.map((Entregas) => (
+            <tr key={Entregas.id}>
+              <td>{Entregas.nome}</td>
+              <td>{Entregas.descricao}</td>
+              <td>{Entregas.status}</td>
+              <td>{Entregas.curso}</td>
+              <td>{Entregas.professor}</td>
               <td className="text-center">
                 {/* Botões das ações */}
-                <Button className="me-2" href={`/disciplinas/form?id=${disciplina.id}`}>
+                <Button className="me-2" href={`/Entregas/form?id=${Entregas.id}`}>
                   <FaPen />
                 </Button>
-                <Button variant="danger" onClick={() => excluir(disciplina)}>
+                <Button variant="danger" onClick={() => excluir(Entregas)}>
                   <FaTrash />
                 </Button>
               </td>

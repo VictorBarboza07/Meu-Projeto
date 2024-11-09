@@ -5,44 +5,44 @@ import { useEffect, useState } from "react";
 import { Button, Table } from "react-bootstrap";
 import { FaPen, FaPlusCircle, FaTrash } from "react-icons/fa";
 
-export default function ProfessoresPage() {
-  const [professores, setProfessores] = useState([]);
+export default function FornecedoresPage() {
+  const [Fornecedores, setFornecedores] = useState([]);
 
   // Faz alguma coisa quando o usuário acessa a tela
   useEffect(() => {
     // Busca a lista do localStorage, se não existir, inicia uma vazia
-    const professoresLocalStorage =
-      JSON.parse(localStorage.getItem("professores")) || [];
+    const FornecedoresLocalStorage =
+      JSON.parse(localStorage.getItem("Fornecedores")) || [];
     // guarda a lista no estado
-    setProfessores(professoresLocalStorage);
-    console.log(professoresLocalStorage);
+    setFornecedores(FornecedoresLocalStorage);
+    console.log(FornecedoresLocalStorage);
   }, []);
 
   // Função para exclusão do item
-  function excluir(professor) {
+  function excluir(Fornecedores) {
     // Confirma com o usuário a exclusão
     if (
-      window.confirm(`Deseja realmente excluir o professor ${professor.nome}?`)
+      window.confirm(`Deseja realmente excluir o Fornecedores ${Fornecedores.nome}?`)
     ) {
-      // filtra a lista antiga removando o professor recebido
-      const novaLista = professores.filter((item) => item.id !== professor.id);
+      // filtra a lista antiga removando o Fornecedores recebido
+      const novaLista = Fornecedores.filter((item) => item.id !== Fornecedores.id);
       // grava no localStorage a nova lista
-      localStorage.setItem("professores", JSON.stringify(novaLista));
+      localStorage.setItem("Fornecedores", JSON.stringify(novaLista));
       // grava a nova lista no estado para renderizar na tela
-      setProfessores(novaLista);
-      alert("Professor excluído com sucesso!");
+      setFornecedores(novaLista);
+      alert("Fornecedores excluído com sucesso!");
     }
   }
 
   return (
-    <Pagina titulo={"Lista de Professores"}>
+    <Pagina titulo={"Lista de Fornecedores"}>
       <div className="text-end mb-2">
-        <Button href="/professores/form">
+        <Button href="/Fornecedores/form">
           <FaPlusCircle /> Novo
         </Button>
       </div>
 
-      {/* Tabela com os Professores */}
+      {/* Tabela com os Fornecedores */}
       <Table striped bordered hover>
         <thead>
           <tr>
@@ -54,22 +54,22 @@ export default function ProfessoresPage() {
           </tr>
         </thead>
         <tbody>
-          {professores.map((professor) => {
+          {Fornecedores.map((Fornecedores) => {
             return (
               <tr>
-                <td>{professor.nome}</td>
-                <td>{professor.matricula}</td>
-                <td>{professor.status}</td>
-                <td>{professor.curso}</td>
+                <td>{Fornecedores.nome}</td>
+                <td>{Fornecedores.matricula}</td>
+                <td>{Fornecedores.status}</td>
+                <td>{Fornecedores.curso}</td>
                 <td className="text-center">
                   {/* Botões das ações */}
                   <Button
                     className="me-2"
-                    href={`/professores/form?id=${professor.id}`}
+                    href={`/Fornecedores/form?id=${Fornecedores.id}`}
                   >
                     <FaPen />
                   </Button>
-                  <Button variant="danger" onClick={() => excluir(professor)}>
+                  <Button variant="danger" onClick={() => excluir(Fornecedores)}>
                     <FaTrash />
                   </Button>
                 </td>

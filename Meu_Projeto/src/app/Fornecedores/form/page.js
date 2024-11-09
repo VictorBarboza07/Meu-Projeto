@@ -8,42 +8,42 @@ import { FaArrowLeft, FaCheck } from "react-icons/fa";
 import { v4 } from "uuid";
 import * as Yup from "yup";
 
-export default function ProfessorFormPage(props) {
+export default function FornecedoresFormPage(props) {
   // router -> hook para navegação de telas
   const router = useRouter();
 
-  // Busca a lista de cursos para usar no select
-  const cursos = JSON.parse(localStorage.getItem("cursos")) || [];
+  // Busca a lista de Clientes para usar no select
+  const Clientes = JSON.parse(localStorage.getItem("Clientes")) || [];
 
-  // Buscar a lista de cursos no localStorage, se não existir, inicializa uma lista vazia
-  const professores = JSON.parse(localStorage.getItem("professores")) || [];
+  // Buscar a lista de Clientes no localStorage, se não existir, inicializa uma lista vazia
+  const Fornecedores = JSON.parse(localStorage.getItem("Fornecedores")) || [];
 
   // Recuperando id para edição
   const id = props.searchParams.id;
   console.log(props.searchParams.id);
   // Buscar na lista a faculdade com o ID recebido no parametro
-  const professorEditado = professores.find((item) => item.id == id);
-  console.log(professorEditado);
+  const FornecedoresEditado = Fornecedores.find((item) => item.id == id);
+  console.log(FornecedoresEditado);
 
   // função para salvar os dados do form
   function salvar(dados) {
-    // Se professorEditado existe, mudar os dados e gravar no localStorage
-    if (professorEditado) {
-      Object.assign(professorEditado, dados);
+    // Se FornecedoresEditado existe, mudar os dados e gravar no localStorage
+    if (FornecedoresEditado) {
+      Object.assign(FornecedoresEditado, dados);
       // Substitui a lista antiga pela nova no localStorage
-      localStorage.setItem("professores", JSON.stringify(professores));
+      localStorage.setItem("Fornecedores", JSON.stringify(Fornecedores));
     } else {
-      // se professorEditado não existe, é criação de uma nova
+      // se FornecedoresEditado não existe, é criação de uma nova
       // gerar um ID (Identificador unico)
       dados.id = v4();
       // Adiciona a nova faculdade na lista de faculdades
-      professores.push(dados);
+      Fornecedores.push(dados);
       // Substitui a lista antiga pela nova no localStorage
-      localStorage.setItem("professores", JSON.stringify(professores));
+      localStorage.setItem("Fornecedores", JSON.stringify(Fornecedores));
     }
 
-    alert("Professor criado com sucesso!");
-    router.push("/professores");
+    alert("Fornecedores criado com sucesso!");
+    router.push("/Fornecedores");
   }
 
   // Campos do form e valores iniciais(default)
@@ -52,7 +52,7 @@ export default function ProfessorFormPage(props) {
     dataNascimento: "",
     matricula: "",
     status: "",
-    curso: "",
+    Clientes: "",
   };
 
   // Esquema de validação com Yup
@@ -61,18 +61,18 @@ export default function ProfessorFormPage(props) {
     dataNascimento: Yup.date().required("Campo obrigatório"),
     matricula: Yup.string().required("Campo obrigatório"),
     status: Yup.string().required("Campo obrigatório"),
-    curso: Yup.string().required("Campo obrigatório"),
+    Clientes: Yup.string().required("Campo obrigatório"),
   });
 
   return (
-    <Pagina titulo={"Cadastro de Professor"}>
+    <Pagina titulo={"Cadastro de Fornecedores"}>
       {/* Formulário */}
 
       <Formik
         // Atributos do formik
-        // Se for edição, coloca os dados de professorEditado
+        // Se for edição, coloca os dados de FornecedoresEditado
         // Se for nova, colocar o initialValues com os valores vazios
-        initialValues={professorEditado || initialValues}
+        initialValues={FornecedoresEditado || initialValues}
         validationSchema={validationSchema}
         onSubmit={salvar}
       >
@@ -169,22 +169,22 @@ export default function ProfessorFormPage(props) {
                   </Form.Group>
 
                   <Form.Group as={Col}>
-                    <Form.Label>Cursos:</Form.Label>
+                    <Form.Label>Clientes:</Form.Label>
                     <Form.Select
-                      name="curso"
-                      value={values.cursos}
+                      name="Clientes"
+                      value={values.Clientes}
                       onChange={handleChange}
                       onBlur={handleBlur}
-                      isValid={touched.curso && !errors.curso}
-                      isInvalid={touched.curso && errors.curso}
+                      isValid={touched.Clientes&& !errors.Clientes}
+                      isInvalid={touched.Clientes&& errors.Clientes}
                     >
                       <option value="">Selecione</option>
-                      {cursos.map((curso) => (
-                        <option value={curso.nome}>{curso.nome}</option>
+                      {Clientes.map((Clientes) => (
+                        <option value={Clientes.nome}>{Clientes.nome}</option>
                       ))}
                     </Form.Select>
                     <Form.Control.Feedback type="invalid">
-                      {errors.curso}
+                      {errors.Clientes}
                     </Form.Control.Feedback>
                   </Form.Group>
                 </Row>

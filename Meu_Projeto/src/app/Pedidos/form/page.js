@@ -3,74 +3,72 @@
 import Pagina from "@/components/Pagina";
 import { useEffect, useState } from "react";
 import { Button, Form } from "react-bootstrap";
-import { useRouter } from "next/navigation"; // Atualizado para usar o caminho correto
+import { useRouter } from "next/navigation";
 
-export default function CadastroAluno() {
-  const [aluno, setAluno] = useState({
+export default function CadastroPedidos() {
+  const [pedidos, setPedidos] = useState({
     nome: "",
     sobrenome: "",
     email: "",
     dataNascimento: "",
     telefone: "",
-    faculdade: "",
-    curso: "",
+    modelos: "",
+    clientes: "",
     periodo: "",
     matricula: "",
     foto: "",
   });
 
-  const [faculdades, setFaculdades] = useState([]);
-  const [cursos, setCursos] = useState([]);
+  const [modelos, setModelos] = useState([]);
+  const [clientes, setClientes] = useState([]);
 
-  const router = useRouter(); // Use o useRouter aqui
+  const router = useRouter();
 
-  // Carregar faculdades do localStorage
+  // Carregar Modelos do localStorage
   useEffect(() => {
-    const faculdadesLocalStorage =
-      JSON.parse(localStorage.getItem("faculdades")) || [];
-    setFaculdades(faculdadesLocalStorage);
+    const modelosLocalStorage = JSON.parse(localStorage.getItem("Modelos")) || [];
+    setModelos(modelosLocalStorage);
   }, []);
 
-  // Filtrar cursos quando a faculdade for selecionada
+  // Filtrar Clientes quando a Modelos for selecionada
   useEffect(() => {
-    if (aluno.faculdade) {
-      const cursosLocalStorage =
-        JSON.parse(localStorage.getItem("cursos")) || [];
-      const cursosFiltrados = cursosLocalStorage.filter(
-        (c) => c.faculdadeId === aluno.faculdade
+    if (pedidos.modelos) {
+      const clientesLocalStorage = JSON.parse(localStorage.getItem("Clientes")) || [];
+      const clientesFiltrados = clientesLocalStorage.filter(
+        (c) => c.modelosId === pedidos.modelos
       );
-      setCursos(cursosFiltrados);
+      setClientes(clientesFiltrados);
     } else {
-      setCursos([]); // Limpa os cursos se nenhuma faculdade estiver selecionada
+      setClientes([]);
     }
-  }, [aluno.faculdade]);
+  }, [pedidos.modelos]);
 
   // Manipular mudanças nos campos do formulário
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setAluno({ ...aluno, [name]: value });
+    setPedidos({ ...pedidos, [name]: value });
   };
 
   // Manipular o envio do formulário
   const handleSubmit = (e) => {
     e.preventDefault();
-    const alunosLocalStorage = JSON.parse(localStorage.getItem("alunos")) || [];
-    aluno.id = Date.now(); // Gera um ID único
-    alunosLocalStorage.push(aluno);
-    localStorage.setItem("alunos", JSON.stringify(alunosLocalStorage));
-    alert("Aluno cadastrado com sucesso!");
-    router.push("/alunos"); // Redireciona para a lista de alunos
+    const pedidosLocalStorage = JSON.parse(localStorage.getItem("Pedidos")) || [];
+    const novoPedido = { ...pedidos, id: Date.now() };
+    pedidosLocalStorage.push(novoPedido);
+    localStorage.setItem("Pedidos", JSON.stringify(pedidosLocalStorage));
+    alert("Pedido cadastrado com sucesso!");
+    router.push("/pedidos"); // Ajustado para refletir o alias da pasta 'app'
   };
 
   return (
-    <Pagina titulo={"Cadastro de Aluno"}>
+    <Pagina titulo={"Cadastro de Pedidos"}>
       <Form onSubmit={handleSubmit}>
         <Form.Group controlId="formNome">
           <Form.Label>Nome</Form.Label>
           <Form.Control
             type="text"
             name="nome"
-            value={aluno.nome}
+            value={pedidos.nome}
             onChange={handleChange}
             required
           />
@@ -80,7 +78,7 @@ export default function CadastroAluno() {
           <Form.Control
             type="text"
             name="sobrenome"
-            value={aluno.sobrenome}
+            value={pedidos.sobrenome}
             onChange={handleChange}
             required
           />
@@ -90,7 +88,7 @@ export default function CadastroAluno() {
           <Form.Control
             type="email"
             name="email"
-            value={aluno.email}
+            value={pedidos.email}
             onChange={handleChange}
             required
           />
@@ -100,7 +98,7 @@ export default function CadastroAluno() {
           <Form.Control
             type="date"
             name="dataNascimento"
-            value={aluno.dataNascimento}
+            value={pedidos.dataNascimento}
             onChange={handleChange}
             required
           />
@@ -110,41 +108,41 @@ export default function CadastroAluno() {
           <Form.Control
             type="tel"
             name="telefone"
-            value={aluno.telefone}
+            value={pedidos.telefone}
             onChange={handleChange}
             required
           />
         </Form.Group>
-        <Form.Group controlId="formFaculdade">
-          <Form.Label>Faculdade</Form.Label>
+        <Form.Group controlId="formModelos">
+          <Form.Label>Modelos</Form.Label>
           <Form.Control
             as="select"
-            name="faculdade"
-            value={aluno.faculdade}
+            name="modelos"
+            value={pedidos.modelos}
             onChange={handleChange}
             required
           >
-            <option value="">Selecione uma faculdade</option>
-            {faculdades.map((faculdade) => (
-              <option key={faculdade.id} value={faculdade.id}>
-                {faculdade.nome}
+            <option value="">Selecione um Modelo</option>
+            {modelos.map((modelo) => (
+              <option key={modelo.id} value={modelo.id}>
+                {modelo.nome}
               </option>
             ))}
           </Form.Control>
         </Form.Group>
-        <Form.Group controlId="formCurso">
-          <Form.Label>Curso</Form.Label>
+        <Form.Group controlId="formClientes">
+          <Form.Label>Clientes</Form.Label>
           <Form.Control
             as="select"
-            name="curso"
-            value={aluno.curso}
+            name="clientes"
+            value={pedidos.clientes}
             onChange={handleChange}
             required
           >
-            <option value="">Selecione um curso</option>
-            {cursos.map((curso) => (
-              <option key={curso.id} value={curso.id}>
-                {curso.nome}
+            <option value="">Selecione um Cliente</option>
+            {clientes.map((cliente) => (
+              <option key={cliente.id} value={cliente.id}>
+                {cliente.nome}
               </option>
             ))}
           </Form.Control>
@@ -154,7 +152,7 @@ export default function CadastroAluno() {
           <Form.Control
             type="text"
             name="periodo"
-            value={aluno.periodo}
+            value={pedidos.periodo}
             onChange={handleChange}
             required
           />
@@ -164,7 +162,7 @@ export default function CadastroAluno() {
           <Form.Control
             type="text"
             name="matricula"
-            value={aluno.matricula}
+            value={pedidos.matricula}
             onChange={handleChange}
             required
           />
@@ -174,13 +172,13 @@ export default function CadastroAluno() {
           <Form.Control
             type="text"
             name="foto"
-            value={aluno.foto}
+            value={pedidos.foto}
             onChange={handleChange}
             placeholder="URL da foto"
           />
         </Form.Group>
         <Button variant="primary" type="submit">
-          Cadastrar Aluno
+          Cadastrar Pedido
         </Button>
       </Form>
     </Pagina>
