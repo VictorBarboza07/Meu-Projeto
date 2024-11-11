@@ -50,18 +50,29 @@ export default function HomePage() {
 
   return (
     <Pagina titulo={"Royal Shoes"}>
-      <Row md={4}>
-        {lista.map((item) => (
-          <Col className="py-2">
-            <Card style={{ height: "100%" }}>
-              <Card.Img src={item.imagem} style={{ height: "100%" }} />
-              <Card.Body>
-                <Card.Title>{item.nome}</Card.Title>
-                Cadastrados: {item.quantidade}
-              </Card.Body>
-              <Card.Footer className="text-end">
-                <Button href={item.link}>Ver Lista</Button>
-              </Card.Footer>
+      <Row className="d-flex flex-column">
+        {lista.map((item, index) => (
+          <Col className="py-2" key={index}>
+            <Card style={{ height: "100%" }} className="d-flex flex-row">
+              <Col xs={4} className="p-0">
+                <Card.Img
+                  src={item.imagem}
+                  style={{
+                    height: "100%",
+                    objectFit: "cover",
+                    width: "100%",
+                  }}
+                />
+              </Col>
+              <Col xs={8} className="d-flex flex-column">
+                <Card.Body className="flex-grow-1">
+                  <Card.Title className="text-center">{item.nome}</Card.Title>
+                </Card.Body>
+                <Card.Footer className="d-flex justify-content-between align-items-end p-2">
+                  <span>Cadastrados: {item.quantidade}</span>
+                  <Button href={item.link}>Ver Lista</Button>
+                </Card.Footer>
+              </Col>
             </Card>
           </Col>
         ))}

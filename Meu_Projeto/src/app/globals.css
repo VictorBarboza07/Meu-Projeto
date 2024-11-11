@@ -1,12 +1,22 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --card-background: #f4f4f4;
+  --card-hover-background: #e0e0e0;
+  --card-border: #ddd;
+  --card-hover-border: #bbb;
+  --card-transform: scale(1);
+  --card-transform-hover: scale(1.05);
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;
     --foreground: #ededed;
+    --card-background: #333;
+    --card-hover-background: #444;
+    --card-border: #555;
+    --card-hover-border: #666;
   }
 }
 
@@ -14,14 +24,29 @@ html,
 body {
   max-width: 100vw;
   overflow-x: hidden;
+  height: 100%; /* Garante que o fundo ocupe a página inteira */
+  position: relative;
 }
 
 body {
   color: var(--foreground);
-  background: var(--background);
+  background: url('https://imgnike-a.akamaihd.net/branding/snkrs-365/assets/img/entrevista-rafa-y.jpg') no-repeat center center fixed; 
+  background-size: cover; /* Garante que a imagem cubra toda a tela */
   font-family: Arial, Helvetica, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+body::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: inherit;
+  filter: blur(10px); /* Aplica o desfoque */
+  z-index: -1; /* Coloca o fundo desfocado atrás de todo o conteúdo */
 }
 
 * {
@@ -33,10 +58,50 @@ body {
 a {
   color: inherit;
   text-decoration: none;
+  position: relative;
+  z-index: 1; /* Garante que o link fique acima do fundo desfocado */
+}
+
+a:hover {
+  text-decoration: underline;
+  color: var(--foreground);
 }
 
 @media (prefers-color-scheme: dark) {
   html {
     color-scheme: dark;
   }
+}
+
+/* Estilos dos Cards */
+.card {
+  background-color: var(--card-background);
+  border: 1px solid var(--card-border);
+  border-radius: 8px;
+  transition: transform 0.3s ease, background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.card:hover {
+  background-color: var(--card-hover-background);
+  border-color: var(--card-hover-border);
+  transform: var(--card-transform-hover);
+}
+
+/* Para o conteúdo do Card */
+.card-body {
+  padding: 15px;
+  transition: color 0.3s ease;
+}
+
+/* Títulos dos cards */
+.card-title {
+  text-align: center;
+  font-size: 1.25rem;
+  font-weight: bold;
+  transition: color 0.3s ease;
+}
+
+/* Quando o card é focado (acessibilidade) */
+.card:focus {
+  outline: 2px solid var(--card-hover-border);
 }
