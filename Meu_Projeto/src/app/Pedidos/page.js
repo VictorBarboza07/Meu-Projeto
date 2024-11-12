@@ -7,28 +7,28 @@ import { Button, Table } from "react-bootstrap";
 import { FaPen, FaPlusCircle, FaTrash } from "react-icons/fa";
 import InputMask from "react-input-mask";
 
-export default function PedidosPage() {
-  const [pedidos, setPedidos] = useState([]);
+export default function PedidossPage() {
+  const [Pedidoss, setPedidoss] = useState([]);
   const router = useRouter(); 
 
   useEffect(() => {
-    const pedidosLocalStorage = JSON.parse(localStorage.getItem("Pedidos")) || [];
-    setPedidos(pedidosLocalStorage);
+    const PedidossLocalStorage = JSON.parse(localStorage.getItem("Pedidoss")) || [];
+    setPedidoss(PedidossLocalStorage);
   }, []);
 
-  const excluir = (pedido) => {
-    if (window.confirm(`Deseja realmente excluir o pedido de ${pedido.nomeRecebedor}?`)) {
-      const novaLista = pedidos.filter((item) => item.id !== pedido.id);
-      localStorage.setItem("Pedidos", JSON.stringify(novaLista));
-      setPedidos(novaLista);
-      alert("Pedido excluído com sucesso!");
+  const excluir = (Pedidos) => {
+    if (window.confirm(`Deseja realmente excluir o Pedidos de ${Pedidos.nomeRecebedor}?`)) {
+      const novaLista = Pedidoss.filter((item) => item.id !== Pedidos.id);
+      localStorage.setItem("Pedidoss", JSON.stringify(novaLista));
+      setPedidoss(novaLista);
+      alert("Pedidos excluído com sucesso!");
     }
   };
 
   return (
-    <Pagina titulo={"Lista de Pedidos"}>
+    <Pagina titulo={"Lista de Pedidoss"}>
       <div className="text-end mb-2">
-        <Button href="/pedidos/form">
+        <Button href="/Pedidoss/form">
           <FaPlusCircle /> Novo
         </Button>
       </div>
@@ -37,33 +37,33 @@ export default function PedidosPage() {
         <thead>
           <tr>
             <th>Quantidade de Pacotes</th>
-            <th>Status do Pedido</th>
+            <th>Status do Pedidos</th>
             <th>Nome do Recebedor</th>
             <th>CPF</th>
             <th>CEP</th>
           </tr>
         </thead>
         <tbody>
-          {pedidos.map((pedido) => (
-            <tr key={pedido.id}>
-              <td>{pedido.quantidadePacotes}</td>
-              <td>{pedido.status}</td>
-              <td>{pedido.nomeRecebedor}</td>
+          {Pedidoss.map((Pedidos) => (
+            <tr key={Pedidos.id}>
+              <td>{Pedidos.quantidadePacotes}</td>
+              <td>{Pedidos.status}</td>
+              <td>{Pedidos.nomeRecebedor}</td>
               <td>
-                <InputMask mask="999.999.999-99" value={pedido.cpf} disabled>
+                <InputMask mask="999.999.999-99" value={Pedidos.cpf} disabled>
                   {(inputProps) => <input {...inputProps} />}
                 </InputMask>
               </td>
               <td>
-                <InputMask mask="99999-999" value={pedido.cep} disabled>
+                <InputMask mask="99999-999" value={Pedidos.cep} disabled>
                   {(inputProps) => <input {...inputProps} />}
                 </InputMask>
               </td>
               <td className="text-center">
-                <Button className="me-2" href={`/pedidos/form?id=${pedido.id}`}>
+                <Button className="me-2" href={`/Pedidoss/form?id=${Pedidos.id}`}>
                   <FaPen />
                 </Button>
-                <Button variant="danger" onClick={() => excluir(pedido)}>
+                <Button variant="danger" onClick={() => excluir(Pedidos)}>
                   <FaTrash />
                 </Button>
               </td>

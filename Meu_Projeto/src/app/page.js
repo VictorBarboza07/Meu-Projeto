@@ -1,7 +1,7 @@
 "use client";
 
 import Pagina from "@/components/Pagina";
-import { Button, Card, Col, Row, Carousel } from "react-bootstrap";
+import { Button, Card, Col, Row } from "react-bootstrap";
 
 export default function HomePage() {
   const Modelos = JSON.parse(localStorage.getItem("Modelos")) || [];
@@ -45,27 +45,6 @@ export default function HomePage() {
 
   return (
     <Pagina titulo={"Royal Shoes"}>
-      {/* Carrossel de imagens com informações, sem links */}
-      <Carousel>
-        {lista.map((item, index) => (
-          <Carousel.Item key={index}>
-            <img
-              className="d-block w-100"
-              src={item.imagem}
-              alt={item.nome}
-              style={{
-                height: "250px", // Ajuste de altura para evitar que estoure
-                objectFit: "cover", // Garantir que a imagem cubra a área sem distorção
-              }}
-            />
-            <Carousel.Caption>
-              <h3>{item.nome}</h3>
-              <p>Cadastrados: {item.quantidade}</p>
-            </Carousel.Caption>
-          </Carousel.Item>
-        ))}
-      </Carousel>
-
       {/* Lista de Cards */}
       <Row className="d-flex flex-column mt-4">
         {lista.map((item, index) => (
@@ -82,11 +61,12 @@ export default function HomePage() {
                 />
               </Col>
               <Col xs={8} className="d-flex flex-column">
-                <Card.Body className="flex-grow-1">
+                <Card.Body className="flex-grow-1 d-flex flex-column justify-content-center">
                   <Card.Title className="text-center">{item.nome}</Card.Title>
                 </Card.Body>
-                <Card.Footer className="d-flex justify-content-between align-items-end p-2">
-                  <span>Cadastrados: {item.quantidade}</span>
+                <Card.Footer className="text-center p-2">
+                  <div>Cadastrados: {item.quantidade}</div>
+                  <Button variant="primary" className="mt-2">Ver mais</Button>
                 </Card.Footer>
               </Col>
             </Card>

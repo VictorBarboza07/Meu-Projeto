@@ -1,5 +1,6 @@
-"use client"; // Certifique-se de marcar como "client" para usar hooks como useState
+"use client"; 
 
+import Pagina from "@/components/Pagina";
 import { useState } from "react";
 import { Button, Form } from "react-bootstrap";
 import InputMask from "react-input-mask";
@@ -8,7 +9,7 @@ import { useRouter } from "next/navigation";
 export default function CadastroPedidos() {
   const [pedidos, setPedidos] = useState({
     quantidadePacotes: "",
-    status: "em_transito",  // Definido como "Em Trânsito" por padrão
+    status: "em_transito",  
     nomeRecebedor: "",
     cpf: "",
     cnpj: "",
@@ -16,13 +17,13 @@ export default function CadastroPedidos() {
 
   const router = useRouter();
 
-  // Manipular mudanças nos campos do formulário
+  
   const handleChange = (e) => {
     const { name, value } = e.target;
     setPedidos({ ...pedidos, [name]: value });
   };
 
-  // Manipular o envio do formulário
+ 
   const handleSubmit = (e) => {
     e.preventDefault();
     const pedidosLocalStorage = JSON.parse(localStorage.getItem("Pedidos")) || [];
@@ -30,7 +31,7 @@ export default function CadastroPedidos() {
     pedidosLocalStorage.push(novoPedido);
     localStorage.setItem("Pedidos", JSON.stringify(pedidosLocalStorage));
     alert("Pedido cadastrado com sucesso!");
-    router.push("/pedidos"); // Navegação após cadastro
+    router.push("/pedidos"); 
   };
 
   return (
