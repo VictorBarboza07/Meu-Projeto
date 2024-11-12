@@ -4,44 +4,18 @@ import Pagina from "@/components/Pagina";
 import { useEffect, useState } from "react";
 import { Button, Form } from "react-bootstrap";
 import { useRouter } from "next/navigation";
+import InputMask from "react-input-mask";
 
 export default function CadastroPedidos() {
   const [pedidos, setPedidos] = useState({
-    nome: "",
-    sobrenome: "",
-    email: "",
-    dataNascimento: "",
-    telefone: "",
-    modelos: "",
-    clientes: "",
-    periodo: "",
-    matricula: "",
-    foto: "",
+    quantidadePacotes: "",
+    status: "em_transito",  // Definido como "Em Trânsito" por padrão
+    nomeRecebedor: "",
+    cpf: "",
+    cnpj: "",
   });
 
-  const [modelos, setModelos] = useState([]);
-  const [clientes, setClientes] = useState([]);
-
   const router = useRouter();
-
-  // Carregar Modelos do localStorage
-  useEffect(() => {
-    const modelosLocalStorage = JSON.parse(localStorage.getItem("Modelos")) || [];
-    setModelos(modelosLocalStorage);
-  }, []);
-
-  // Filtrar Clientes quando a Modelos for selecionada
-  useEffect(() => {
-    if (pedidos.modelos) {
-      const clientesLocalStorage = JSON.parse(localStorage.getItem("Clientes")) || [];
-      const clientesFiltrados = clientesLocalStorage.filter(
-        (c) => c.modelosId === pedidos.modelos
-      );
-      setClientes(clientesFiltrados);
-    } else {
-      setClientes([]);
-    }
-  }, [pedidos.modelos]);
 
   // Manipular mudanças nos campos do formulário
   const handleChange = (e) => {
@@ -63,120 +37,76 @@ export default function CadastroPedidos() {
   return (
     <Pagina titulo={"Cadastro de Pedidos"}>
       <Form onSubmit={handleSubmit}>
-        <Form.Group controlId="formNome">
-          <Form.Label>Nome</Form.Label>
+        {/* Campo de Quantidade de Pacotes */}
+        <Form.Group controlId="formQuantidadePacotes">
+          <Form.Label>Quantidade de Pacotes</Form.Label>
           <Form.Control
             type="text"
-            name="nome"
-            value={pedidos.nome}
+            name="quantidadePacotes"
+            value={pedidos.quantidadePacotes}
             onChange={handleChange}
             required
+            pattern="[0-9]*" // Aceita apenas números
           />
         </Form.Group>
-        <Form.Group controlId="formSobrenome">
-          <Form.Label>Sobrenome</Form.Label>
-          <Form.Control
-            type="text"
-            name="sobrenome"
-            value={pedidos.sobrenome}
-            onChange={handleChange}
-            required
-          />
-        </Form.Group>
-        <Form.Group controlId="formEmail">
-          <Form.Label>Email</Form.Label>
-          <Form.Control
-            type="email"
-            name="email"
-            value={pedidos.email}
-            onChange={handleChange}
-            required
-          />
-        </Form.Group>
-        <Form.Group controlId="formDataNascimento">
-          <Form.Label>Data de Nascimento</Form.Label>
-          <Form.Control
-            type="date"
-            name="dataNascimento"
-            value={pedidos.dataNascimento}
-            onChange={handleChange}
-            required
-          />
-        </Form.Group>
-        <Form.Group controlId="formTelefone">
-          <Form.Label>Telefone</Form.Label>
-          <Form.Control
-            type="tel"
-            name="telefone"
-            value={pedidos.telefone}
-            onChange={handleChange}
-            required
-          />
-        </Form.Group>
-        <Form.Group controlId="formModelos">
-          <Form.Label>Modelos</Form.Label>
+        
+        {/* Campo de Status */}
+        <Form.Group controlId="formStatus">
+          <Form.Label>Status</Form.Label>
           <Form.Control
             as="select"
-            name="modelos"
-            value={pedidos.modelos}
+            name="status"
+            value={pedidos.status}
             onChange={handleChange}
             required
           >
-            <option value="">Selecione um Modelo</option>
-            {modelos.map((modelo) => (
-              <option key={modelo.id} value={modelo.id}>
-                {modelo.nome}
-              </option>
-            ))}
+            <option value="em_transito">Em Trânsito</option>
+            <option value="entregue">Entregue</option>
           </Form.Control>
         </Form.Group>
-        <Form.Group controlId="formClientes">
-          <Form.Label>Clientes</Form.Label>
+
+        {/* Campo de Nome do Recebedor */}
+        <Form.Group controlId="formNomeRecebedor">
+          <Form.Label>Nome do Recebedor</Form.Label>
           <Form.Control
-            as="select"
-            name="clientes"
-            value={pedidos.clientes}
+            type="text"
+            name="nomeRecebedor"
+            value={pedidos.nomeRecebedor}
             onChange={handleChange}
+            required
+            pattern="[A-Z ]*" // Apenas letras maiúsculas e espaços
+          />
+        </Form.Group>
+
+        {/* Campo de CPF */}
+        <Form.Group controlId="formCpf">
+          <Form.Label>CPF</Form.Label>
+          <InputMask
+            mask="999.999.999-99"
+            value={pedidos.cpf}
+            onChange={handleChange}
+            name="cpf"
             required
           >
-            <option value="">Selecione um Cliente</option>
-            {clientes.map((cliente) => (
-              <option key={cliente.id} value={cliente.id}>
-                {cliente.nome}
-              </option>
-            ))}
-          </Form.Control>
+            {(inputProps) => <Form.Control {...inputProps} />}
+          </InputMask>
         </Form.Group>
-        <Form.Group controlId="formPeriodo">
-          <Form.Label>Período</Form.Label>
-          <Form.Control
-            type="text"
-            name="periodo"
-            value={pedidos.periodo}
+
+        {/* Campo de CNPJ */}
+        <Form.Group controlId="formCnpj">
+          <Form.Label>CNPJ</Form.Label>
+          <InputMask
+            mask="99.999.999/9999-99"
+            value={pedidos.cnpj}
             onChange={handleChange}
+            name="cnpj"
             required
-          />
+          >
+            {(inputProps) => <Form.Control {...inputProps} />}
+          </InputMask>
         </Form.Group>
-        <Form.Group controlId="formMatricula">
-          <Form.Label>Matrícula</Form.Label>
-          <Form.Control
-            type="text"
-            name="matricula"
-            value={pedidos.matricula}
-            onChange={handleChange}
-            required
-          />
-        </Form.Group>
-        <Form.Group controlId="formFoto">
-          <Form.Label>Foto</Form.Label>
-          <Form.Control
-            type="text"
-            name="foto"
-            value={pedidos.foto}
-            onChange={handleChange}
-            placeholder="URL da foto"
-          />
-        </Form.Group>
+
+        {/* Botão de envio */}
         <Button variant="primary" type="submit">
           Cadastrar Pedido
         </Button>

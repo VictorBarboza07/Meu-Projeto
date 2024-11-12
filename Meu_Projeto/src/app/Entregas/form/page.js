@@ -7,6 +7,7 @@ import { Button, Col, Form, Row } from "react-bootstrap";
 import { FaArrowLeft, FaCheck } from "react-icons/fa";
 import { v4 } from "uuid";
 import * as Yup from "yup";
+import MaskedInput from "react-input-mask"; // Importando a biblioteca para máscara
 
 export default function EntregasFormPage(props) {
   const router = useRouter();
@@ -31,7 +32,7 @@ export default function EntregasFormPage(props) {
       localStorage.setItem("Entregas", JSON.stringify(Entregas));
     }
 
-    alert("Entregas salva com sucesso!");
+    alert("Entrega salva com sucesso!");
     router.push("/Entregas");
   }
 
@@ -41,7 +42,11 @@ export default function EntregasFormPage(props) {
     descricao: "",
     Clientes: "",
     Fornecedores: "",
-    status: "",
+    endereco: "",
+    cep: "",
+    cidade: "",
+    nomeRecebedor: "",
+    dataEntrega: "",
   };
 
   // Validação com Yup
@@ -50,7 +55,11 @@ export default function EntregasFormPage(props) {
     descricao: Yup.string().required("Campo obrigatório"),
     Clientes: Yup.string().required("Campo obrigatório"),
     Fornecedores: Yup.string().required("Campo obrigatório"),
-    status: Yup.string().required("Campo obrigatório"),
+    endereco: Yup.string().required("Campo obrigatório"),
+    cep: Yup.string().required("Campo obrigatório"),
+    cidade: Yup.string().required("Campo obrigatório"),
+    nomeRecebedor: Yup.string().required("Campo obrigatório"),
+    dataEntrega: Yup.string().required("Campo obrigatório"),
   });
 
   return (
@@ -154,27 +163,94 @@ export default function EntregasFormPage(props) {
 
               <Row className="mb-2">
                 <Form.Group as={Col}>
-                  <Form.Label>Status:</Form.Label>
-                  <Form.Select
-                    name="status"
-                    value={values.status}
+                  <Form.Label>Endereço:</Form.Label>
+                  <Form.Control
+                    name="endereco"
+                    type="text"
+                    value={values.endereco}
                     onChange={handleChange}
                     onBlur={handleBlur}
-                    isValid={touched.status && !errors.status}
-                    isInvalid={touched.status && errors.status}
-                  >
-                    <option value="">Selecione</option>
-                    <option value="Ativo">Ativo</option>
-                    <option value="Inativo">Inativo</option>
-                  </Form.Select>
+                    isValid={touched.endereco && !errors.endereco}
+                    isInvalid={touched.endereco && errors.endereco}
+                  />
                   <Form.Control.Feedback type="invalid">
-                    {errors.status}
+                    {errors.endereco}
+                  </Form.Control.Feedback>
+                </Form.Group>
+
+                <Form.Group as={Col}>
+                  <Form.Label>CEP:</Form.Label>
+                  <MaskedInput
+                    mask="99999-999"
+                    name="cep"
+                    value={values.cep}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    className="form-control"
+                    isValid={touched.cep && !errors.cep}
+                    isInvalid={touched.cep && errors.cep}
+                  />
+                  <Form.Control.Feedback type="invalid">
+                    {errors.cep}
+                  </Form.Control.Feedback>
+                </Form.Group>
+              </Row>
+
+              <Row className="mb-2">
+                <Form.Group as={Col}>
+                  <Form.Label>Cidade:</Form.Label>
+                  <Form.Control
+                    name="cidade"
+                    type="text"
+                    value={values.cidade}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    isValid={touched.cidade && !errors.cidade}
+                    isInvalid={touched.cidade && errors.cidade}
+                  />
+                  <Form.Control.Feedback type="invalid">
+                    {errors.cidade}
+                  </Form.Control.Feedback>
+                </Form.Group>
+
+                <Form.Group as={Col}>
+                  <Form.Label>Nome do Recebedor:</Form.Label>
+                  <Form.Control
+                    name="nomeRecebedor"
+                    type="text"
+                    value={values.nomeRecebedor}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    isValid={touched.nomeRecebedor && !errors.nomeRecebedor}
+                    isInvalid={touched.nomeRecebedor && errors.nomeRecebedor}
+                  />
+                  <Form.Control.Feedback type="invalid">
+                    {errors.nomeRecebedor}
+                  </Form.Control.Feedback>
+                </Form.Group>
+              </Row>
+
+              <Row className="mb-2">
+                <Form.Group as={Col}>
+                  <Form.Label>Data da Entrega:</Form.Label>
+                  <MaskedInput
+                    mask="99/99/9999"
+                    name="dataEntrega"
+                    value={values.dataEntrega}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    className="form-control"
+                    isValid={touched.dataEntrega && !errors.dataEntrega}
+                    isInvalid={touched.dataEntrega && errors.dataEntrega}
+                  />
+                  <Form.Control.Feedback type="invalid">
+                    {errors.dataEntrega}
                   </Form.Control.Feedback>
                 </Form.Group>
               </Row>
 
               <Form.Group className="text-end">
-                <Button className="me-2" href="/Entregass">
+                <Button className="me-2" href="/Entregas">
                   <FaArrowLeft /> Voltar
                 </Button>
                 <Button type="submit" variant="success">

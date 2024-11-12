@@ -78,7 +78,7 @@ a:hover {
   background-color: var(--card-background);
   border: 1px solid var(--card-border);
   border-radius: 8px;
-  transition: transform 0.3s ease, background-color 0.3s ease, border-color 0.3s ease;
+  transition: transform 0.5s ease, background-color 0.5s ease, border-color 0.5s ease;
 }
 
 .card:hover {
@@ -104,4 +104,22 @@ a:hover {
 /* Quando o card é focado (acessibilidade) */
 .card:focus {
   outline: 2px solid var(--card-hover-border);
+}
+/* globals.css ou Navbar.css */
+.navbar {
+  background-color: #000 !important; /* Fundo preto */
+  color: #fff; /* Texto branco */
+}
+
+.navbar .navbar-brand, 
+.navbar .navbar-nav .nav-link {
+  color: #fff !important; /* Garante que os links também sejam brancos */
+}
+
+.navbar .navbar-nav .nav-link:hover {
+  color: #ccc !important; /* Cor de hover mais clara para os links */
+}
+
+.navbar-toggler-icon {
+  background-color: black  /* Trocando a cor do ícone do menu */
 }
