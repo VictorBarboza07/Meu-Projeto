@@ -33,14 +33,19 @@ export default function ClienteFormPage(props) {
   const initialValues = {
     nome: "",
     endereco: "",
+    numero: "",
+    pontoReferencia: "",
     cep: "",
     cpf: "",
     email: "",
+    telefone: "",
   };
 
   const validationSchema = Yup.object().shape({
     nome: Yup.string().required("Campo obrigatório"),
     endereco: Yup.string().required("Campo obrigatório"),
+    numero: Yup.string().required("Campo obrigatório"),
+    pontoReferencia: Yup.string().required("Campo obrigatório"),
     cep: Yup.string()
       .matches(/^[0-9]{5}-[0-9]{3}$/, "CEP inválido")
       .required("Campo obrigatório"),
@@ -48,6 +53,9 @@ export default function ClienteFormPage(props) {
       .matches(/^[0-9]{3}\.[0-9]{3}\.[0-9]{3}-[0-9]{2}$/, "CPF inválido")
       .required("Campo obrigatório"),
     email: Yup.string().email("Email inválido").required("Campo obrigatório"),
+    telefone: Yup.string()
+      .matches(/^\(\d{2}\) \d{4,5}-\d{4}$/, "Telefone inválido")
+      .required("Campo obrigatório"),
   });
 
   return (
@@ -105,6 +113,42 @@ export default function ClienteFormPage(props) {
 
             <Row className="mb-2">
               <Form.Group as={Col}>
+                <Form.Label>Número:</Form.Label>
+                <Form.Control
+                  name="numero"
+                  type="text"
+                  placeholder="Digite o número"
+                  value={values.numero}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  isValid={touched.numero && !errors.numero}
+                  isInvalid={touched.numero && errors.numero}
+                />
+                <Form.Control.Feedback type="invalid">
+                  {errors.numero}
+                </Form.Control.Feedback>
+              </Form.Group>
+
+              <Form.Group as={Col}>
+                <Form.Label>Ponto de Referência:</Form.Label>
+                <Form.Control
+                  name="pontoReferencia"
+                  type="text"
+                  placeholder="Digite o ponto de referência"
+                  value={values.pontoReferencia}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  isValid={touched.pontoReferencia && !errors.pontoReferencia}
+                  isInvalid={touched.pontoReferencia && errors.pontoReferencia}
+                />
+                <Form.Control.Feedback type="invalid">
+                  {errors.pontoReferencia}
+                </Form.Control.Feedback>
+              </Form.Group>
+            </Row>
+
+            <Row className="mb-2">
+              <Form.Group as={Col}>
                 <Form.Label>CEP:</Form.Label>
                 <InputGroup>
                   <InputMask
@@ -114,9 +158,8 @@ export default function ClienteFormPage(props) {
                     value={values.cep}
                     onChange={handleChange}
                     onBlur={handleBlur}
-                    className={`form-control ${
-                      touched.cep && errors.cep ? "is-invalid" : ""
-                    }`}
+                    className={`form-control ${touched.cep && errors.cep ? "is-invalid" : ""
+                      }`}
                   />
                   <InputGroup.Text>
                     <FaMapMarkerAlt />
@@ -136,9 +179,8 @@ export default function ClienteFormPage(props) {
                   value={values.cpf}
                   onChange={handleChange}
                   onBlur={handleBlur}
-                  className={`form-control ${
-                    touched.cpf && errors.cpf ? "is-invalid" : ""
-                  }`}
+                  className={`form-control ${touched.cpf && errors.cpf ? "is-invalid" : ""
+                    }`}
                 />
                 <Form.Control.Feedback type="invalid">
                   {errors.cpf}
@@ -161,6 +203,23 @@ export default function ClienteFormPage(props) {
                 />
                 <Form.Control.Feedback type="invalid">
                   {errors.email}
+                </Form.Control.Feedback>
+              </Form.Group>
+
+              <Form.Group as={Col}>
+                <Form.Label>Telefone:</Form.Label>
+                <InputMask
+                  mask="(99) 99999-9999"
+                  name="telefone"
+                  placeholder="(00) 00000-0000"
+                  value={values.telefone}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  className={`form-control ${touched.telefone && errors.telefone ? "is-invalid" : ""
+                    }`}
+                />
+                <Form.Control.Feedback type="invalid">
+                  {errors.telefone}
                 </Form.Control.Feedback>
               </Form.Group>
             </Row>

@@ -1,10 +1,9 @@
-"use client";
+"use client"; // Certifique-se de marcar como "client" para usar hooks como useState
 
-import Pagina from "@/components/Pagina";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Button, Form } from "react-bootstrap";
-import { useRouter } from "next/navigation";
 import InputMask from "react-input-mask";
+import { useRouter } from "next/navigation";
 
 export default function CadastroPedidos() {
   const [pedidos, setPedidos] = useState({
@@ -31,13 +30,13 @@ export default function CadastroPedidos() {
     pedidosLocalStorage.push(novoPedido);
     localStorage.setItem("Pedidos", JSON.stringify(pedidosLocalStorage));
     alert("Pedido cadastrado com sucesso!");
-    router.push("/pedidos"); // Ajustado para refletir o alias da pasta 'app'
+    router.push("/pedidos"); // Navegação após cadastro
   };
 
   return (
-    <Pagina titulo={"Cadastro de Pedidos"}>
+    <div>
+      <h2>Cadastro de Pedidos</h2>
       <Form onSubmit={handleSubmit}>
-        {/* Campo de Quantidade de Pacotes */}
         <Form.Group controlId="formQuantidadePacotes">
           <Form.Label>Quantidade de Pacotes</Form.Label>
           <Form.Control
@@ -46,11 +45,10 @@ export default function CadastroPedidos() {
             value={pedidos.quantidadePacotes}
             onChange={handleChange}
             required
-            pattern="[0-9]*" // Aceita apenas números
+            pattern="[0-9]*"
           />
         </Form.Group>
-        
-        {/* Campo de Status */}
+
         <Form.Group controlId="formStatus">
           <Form.Label>Status</Form.Label>
           <Form.Control
@@ -65,7 +63,6 @@ export default function CadastroPedidos() {
           </Form.Control>
         </Form.Group>
 
-        {/* Campo de Nome do Recebedor */}
         <Form.Group controlId="formNomeRecebedor">
           <Form.Label>Nome do Recebedor</Form.Label>
           <Form.Control
@@ -74,11 +71,10 @@ export default function CadastroPedidos() {
             value={pedidos.nomeRecebedor}
             onChange={handleChange}
             required
-            pattern="[A-Z ]*" // Apenas letras maiúsculas e espaços
+            pattern="[A-Z ]*"
           />
         </Form.Group>
 
-        {/* Campo de CPF */}
         <Form.Group controlId="formCpf">
           <Form.Label>CPF</Form.Label>
           <InputMask
@@ -92,7 +88,6 @@ export default function CadastroPedidos() {
           </InputMask>
         </Form.Group>
 
-        {/* Campo de CNPJ */}
         <Form.Group controlId="formCnpj">
           <Form.Label>CNPJ</Form.Label>
           <InputMask
@@ -106,11 +101,10 @@ export default function CadastroPedidos() {
           </InputMask>
         </Form.Group>
 
-        {/* Botão de envio */}
         <Button variant="primary" type="submit">
           Cadastrar Pedido
         </Button>
       </Form>
-    </Pagina>
+    </div>
   );
 }

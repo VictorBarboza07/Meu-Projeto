@@ -8,29 +8,28 @@ import { FaPen, FaPlusCircle, FaTrash } from "react-icons/fa";
 export default function FornecedoresPage() {
   const [Fornecedores, setFornecedores] = useState([]);
 
-  // Faz alguma coisa quando o usuário acessa a tela
+  // Executado quando o usuário acessa a tela
   useEffect(() => {
     // Busca a lista do localStorage, se não existir, inicia uma vazia
     const FornecedoresLocalStorage =
       JSON.parse(localStorage.getItem("Fornecedores")) || [];
-    // guarda a lista no estado
+    // Guarda a lista no estado
     setFornecedores(FornecedoresLocalStorage);
-    console.log(FornecedoresLocalStorage);
   }, []);
 
   // Função para exclusão do item
-  function excluir(Fornecedores) {
+  function excluir(fornecedor) {
     // Confirma com o usuário a exclusão
     if (
-      window.confirm(`Deseja realmente excluir o Fornecedores ${Fornecedores.nome}?`)
+      window.confirm(`Deseja realmente excluir o fornecedor ${fornecedor.nomeEmpresa}?`)
     ) {
-      // filtra a lista antiga removando o Fornecedores recebido
-      const novaLista = Fornecedores.filter((item) => item.id !== Fornecedores.id);
-      // grava no localStorage a nova lista
+      // Filtra a lista antiga removendo o fornecedor selecionado
+      const novaLista = Fornecedores.filter((item) => item.id !== fornecedor.id);
+      // Grava no localStorage a nova lista
       localStorage.setItem("Fornecedores", JSON.stringify(novaLista));
-      // grava a nova lista no estado para renderizar na tela
+      // Atualiza o estado com a nova lista
       setFornecedores(novaLista);
-      alert("Fornecedores excluído com sucesso!");
+      alert("Fornecedor excluído com sucesso!");
     }
   }
 
@@ -46,30 +45,36 @@ export default function FornecedoresPage() {
       <Table striped bordered hover>
         <thead>
           <tr>
-            <th>Nome</th>
-            <th>Matricula</th>
-            <th>Status</th>
-            <th>Curso</th>
+            <th>Nome da Empresa</th>
+            <th>CNPJ</th>
+            <th>IE</th>
+            <th>Transportadora</th>
+            <th>Gerente</th>
+            <th>Telefone</th>
+            <th>Email</th>
             <th>Ações</th>
           </tr>
         </thead>
         <tbody>
-          {Fornecedores.map((Fornecedores) => {
+          {Fornecedores.map((fornecedor) => {
             return (
-              <tr>
-                <td>{Fornecedores.nome}</td>
-                <td>{Fornecedores.matricula}</td>
-                <td>{Fornecedores.status}</td>
-                <td>{Fornecedores.curso}</td>
+              <tr key={fornecedor.id}>
+                <td>{fornecedor.nomeEmpresa}</td>
+                <td>{fornecedor.cnpj}</td>
+                <td>{fornecedor.ie}</td>
+                <td>{fornecedor.transportadora}</td>
+                <td>{fornecedor.gerente}</td>
+                <td>{fornecedor.telefone}</td>
+                <td>{fornecedor.email}</td>
                 <td className="text-center">
                   {/* Botões das ações */}
                   <Button
                     className="me-2"
-                    href={`/Fornecedores/form?id=${Fornecedores.id}`}
+                    href={`/Fornecedores/form?id=${fornecedor.id}`}
                   >
                     <FaPen />
                   </Button>
-                  <Button variant="danger" onClick={() => excluir(Fornecedores)}>
+                  <Button variant="danger" onClick={() => excluir(fornecedor)}>
                     <FaTrash />
                   </Button>
                 </td>

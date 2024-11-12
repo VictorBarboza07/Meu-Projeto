@@ -8,7 +8,7 @@ import { FaPen, FaPlusCircle, FaTrash } from "react-icons/fa";
 export default function ClientesPage() {
   const [clientes, setClientes] = useState([]);
 
-  // Carrega os dados dos clientes do localStorage quando a tela é carregada
+  /* Carrega os dados dos clientes do localStorage quando a tela é carregada */
   useEffect(() => {
     const clientesLocalStorage = JSON.parse(localStorage.getItem("Clientes")) || [];
     setClientes(clientesLocalStorage);
@@ -38,9 +38,12 @@ export default function ClientesPage() {
           <tr>
             <th>Nome</th>
             <th>Endereço</th>
+            <th>Número</th>
+            <th>Ponto de Referência</th>
             <th>CEP</th>
             <th>CPF</th>
             <th>Email</th>
+            <th>Telefone</th>
             <th>Ações</th>
           </tr>
         </thead>
@@ -49,9 +52,12 @@ export default function ClientesPage() {
             <tr key={cliente.id}>
               <td>{cliente.nome}</td>
               <td>{cliente.endereco}</td>
+              <td>{cliente.numero}</td>
+              <td>{cliente.pontoReferencia}</td>
               <td>{cliente.cep}</td>
               <td>{cliente.cpf}</td>
               <td>{cliente.email}</td>
+              <td>{cliente.telefone}</td>
               <td className="text-center">
                 {/* Botões das ações */}
                 <Button className="me-2" href={`/Clientes/form?id=${cliente.id}`}>
