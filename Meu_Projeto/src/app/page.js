@@ -61,12 +61,14 @@ export default function HomePage() {
                 />
               </Col>
               <Col xs={8} className="d-flex flex-column">
-                <Card.Body className="flex-grow-1 d-flex flex-column justify-content-center">
+                <Card.Body className="flex-grow-1">
                   <Card.Title className="text-center">{item.nome}</Card.Title>
+                  <Card.Text className="text-center">
+                    Cadastrados: {item.quantidade}
+                  </Card.Text>
                 </Card.Body>
-                <Card.Footer className="text-center p-2">
-                  <div>Cadastrados: {item.quantidade}</div>
-                  <Button variant="primary" className="mt-2">Ver mais</Button>
+                <Card.Footer className="d-flex justify-content-center p-2">
+                  <Button variant="primary">Ver mais</Button>
                 </Card.Footer>
               </Col>
             </Card>

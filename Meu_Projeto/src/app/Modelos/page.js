@@ -2,8 +2,12 @@
 
 import Pagina from "@/components/Pagina";
 import { useEffect, useState } from "react";
-import { Button, Table } from "react-bootstrap";
+import { Button, Table, Row, Col, Card } from "react-bootstrap";
 import { FaPen, FaPlusCircle, FaTrash } from "react-icons/fa";
+import { Bar } from "react-chartjs-2";
+import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from "chart.js";
+
+ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
 export default function ModelosPage() {
   const [Modelos, setModelos] = useState([]);
@@ -21,6 +25,38 @@ export default function ModelosPage() {
       alert("Modelo excluído com sucesso!");
     }
   }
+
+  // Preparação dos dados para o gráfico
+  const modelosOpcoes = ["Adidas", "Nike", "Mizuno", "Olympikus", "Oakley"];
+  const modelosCount = modelosOpcoes.map(
+    (modelo) => Modelos.filter((item) => item.modelo === modelo).length
+  );
+
+  const data = {
+    labels: modelosOpcoes,
+    datasets: [
+      {
+        label: "Quantidade de Modelos",
+        data: modelosCount,
+        backgroundColor: "rgba(75, 192, 192, 0.6)",
+        borderColor: "rgba(75, 192, 192, 1)",
+        borderWidth: 1,
+      },
+    ],
+  };
+
+  const options = {
+    responsive: true,
+    plugins: {
+      legend: {
+        position: "top",
+      },
+      title: {
+        display: true,
+        text: "Quantidade de Modelos Cadastrados",
+      },
+    },
+  };
 
   return (
     <Pagina titulo="Lista de Modelos de Tênis">
@@ -57,6 +93,17 @@ export default function ModelosPage() {
           ))}
         </tbody>
       </Table>
+
+      {/* Gráfico de Barras */}
+      <Row className="mt-5">
+        <Col>
+          <Card>
+            <Card.Body>
+              <Bar data={data} options={options} />
+            </Card.Body>
+          </Card>
+        </Col>
+      </Row>
     </Pagina>
   );
 }
