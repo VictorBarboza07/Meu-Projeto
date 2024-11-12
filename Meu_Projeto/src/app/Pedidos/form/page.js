@@ -1,4 +1,4 @@
-"use client"; 
+"use client";
 
 import Pagina from "@/components/Pagina";
 import { useState } from "react";
@@ -9,7 +9,7 @@ import { useRouter } from "next/navigation";
 export default function CadastroPedidos() {
   const [pedidos, setPedidos] = useState({
     quantidadePacotes: "",
-    status: "em_transito",  
+    status: "em_transito",
     nomeRecebedor: "",
     cpf: "",
     cnpj: "",
@@ -17,13 +17,11 @@ export default function CadastroPedidos() {
 
   const router = useRouter();
 
-  
   const handleChange = (e) => {
     const { name, value } = e.target;
     setPedidos({ ...pedidos, [name]: value });
   };
 
- 
   const handleSubmit = (e) => {
     e.preventDefault();
     const pedidosLocalStorage = JSON.parse(localStorage.getItem("Pedidos")) || [];
@@ -31,7 +29,7 @@ export default function CadastroPedidos() {
     pedidosLocalStorage.push(novoPedido);
     localStorage.setItem("Pedidos", JSON.stringify(pedidosLocalStorage));
     alert("Pedido cadastrado com sucesso!");
-    router.push("/pedidos"); 
+    router.push("/pedidos");
   };
 
   return (
@@ -72,7 +70,8 @@ export default function CadastroPedidos() {
             value={pedidos.nomeRecebedor}
             onChange={handleChange}
             required
-            pattern="[A-Z ]*"
+            pattern="[a-zA-ZÀ-ÿ ]+"
+            title="Digite apenas letras no nome do recebedor."
           />
         </Form.Group>
 

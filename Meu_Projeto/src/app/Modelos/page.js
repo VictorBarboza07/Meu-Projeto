@@ -26,7 +26,7 @@ export default function ModelosPage() {
     }
   }
 
-  // Preparação dos dados para o gráfico
+  
   const modelosOpcoes = ["Adidas", "Nike", "Mizuno", "Olympikus", "Oakley"];
   const modelosCount = modelosOpcoes.map(
     (modelo) => Modelos.filter((item) => item.modelo === modelo).length

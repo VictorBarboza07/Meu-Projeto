@@ -7,28 +7,28 @@ import { Button, Table } from "react-bootstrap";
 import { FaPen, FaPlusCircle, FaTrash } from "react-icons/fa";
 import InputMask from "react-input-mask";
 
-export default function PedidossPage() {
-  const [Pedidoss, setPedidoss] = useState([]);
+export default function PedidosPage() {
+  const [Pedidos, setPedidos] = useState([]);
   const router = useRouter(); 
 
   useEffect(() => {
-    const PedidossLocalStorage = JSON.parse(localStorage.getItem("Pedidoss")) || [];
-    setPedidoss(PedidossLocalStorage);
+    const PedidosLocalStorage = JSON.parse(localStorage.getItem("Pedidos")) || [];
+    setPedidos(PedidosLocalStorage);
   }, []);
 
   const excluir = (Pedidos) => {
     if (window.confirm(`Deseja realmente excluir o Pedidos de ${Pedidos.nomeRecebedor}?`)) {
-      const novaLista = Pedidoss.filter((item) => item.id !== Pedidos.id);
-      localStorage.setItem("Pedidoss", JSON.stringify(novaLista));
-      setPedidoss(novaLista);
+      const novaLista = Pedidos.filter((item) => item.id !== Pedidos.id);
+      localStorage.setItem("Pedidos", JSON.stringify(novaLista));
+      setPedidos(novaLista);
       alert("Pedidos excluído com sucesso!");
     }
   };
 
   return (
-    <Pagina titulo={"Lista de Pedidoss"}>
+    <Pagina titulo={"Lista de Pedidos"}>
       <div className="text-end mb-2">
-        <Button href="/Pedidoss/form">
+        <Button onClick={() => router.push("/Pedidos/form")}>
           <FaPlusCircle /> Novo
         </Button>
       </div>
@@ -41,10 +41,11 @@ export default function PedidossPage() {
             <th>Nome do Recebedor</th>
             <th>CPF</th>
             <th>CEP</th>
+            <th>Ações</th>
           </tr>
         </thead>
         <tbody>
-          {Pedidoss.map((Pedidos) => (
+          {Pedidos.map((Pedidos) => (
             <tr key={Pedidos.id}>
               <td>{Pedidos.quantidadePacotes}</td>
               <td>{Pedidos.status}</td>
@@ -60,7 +61,7 @@ export default function PedidossPage() {
                 </InputMask>
               </td>
               <td className="text-center">
-                <Button className="me-2" href={`/Pedidoss/form?id=${Pedidos.id}`}>
+                <Button className="me-2" onClick={() => router.push(`/Pedidos/form?id=${Pedidos.id}`)}>
                   <FaPen />
                 </Button>
                 <Button variant="danger" onClick={() => excluir(Pedidos)}>
